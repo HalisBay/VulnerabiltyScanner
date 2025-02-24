@@ -48,7 +48,7 @@ When the project is running, a Flask application will start on `localhost`, whic
 
 ### Usage
 
-1. To initiate a scan, navigate to `http://127.0.0.1:5000/` in your browser.
+1. To initiate a scan, navigate to `http://127.0.0.1:5000/api/` in your browser.
 
 2. Enter the URL you want to scan in the text field and click "Scan" to start the scan.
 
