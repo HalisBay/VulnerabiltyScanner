@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerabilty Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Vulnerabilty Scanner</h1>
+        <form id="scanForm">
+            <input type="text" id="url" placeholder="Enter url" required>
+            <button type="submit">Scan</button>
+        </form>
+        <div id="loading" class="loading" style="display:none;">
+            <img src="{{ url_for('static', filename='loading.gif') }}" alt="loading...">
+        </div>
+        <pre id="result"></pre>
+    </div>
+    <script>
+        document.getElementById("scanForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let url = document.getElementById("url").value;
+            document.getElementById("loading").style.display = "block";
+            fetch("/api/scan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("result").innerText = "Bir hata oluştu: " + error.message;
+            });
+        });
+    </script>
+</body>
+</html>
